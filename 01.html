@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!--Задание 1
+Разработайте страницу с двумя полями ввода и кнопкой. Пользователь должен вводить в поля вводов
+целочисленный значения, а нажатие по кнопке должно приводить к асинхронному запросу на сервер.
+Запрашивать следует обработчик CalcHandler.ashx, который находиться вместе с примерами в уроке 
+номер 10, обработчик принимает два post параметра с именами ‘a’ и ‘b'. Результат, который возвращает
+обработчик выведите на страницу. --->
+
+<div id="guard">
+    <input type="text" class = "num">
+    <input type="text" class = "num">
+</div>
+<p id="output"></p>
+<input type="button" value="Кнопка" id="button">
+<script>
+    guard.addEventListener("keypress", function (e) {
+    if (!String.fromCharCode(e.charCode).match(/^\d+$/)){
+        e.preventDefault();
+    }
+});
+
+        btns = document.getElementById("button");
+        btns.addEventListener('click', function() {
+            let num = document.getElementsByClassName("num");
+            let a =  num[0].value;
+            let b = num[1].value;
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "CalcHandler.ashx?a=" + a + "&b=" + b);
+xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText)
+                document.getElementById("output").innerHTML = xhr.responseText;
+            }
+        }
+        xhr.send();
+        })
+</script>
+<script src="01.js"></script>
+</body>
+</html>
